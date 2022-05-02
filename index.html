@@ -18,6 +18,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-storage.js"></script>
     <script src="./firebase.js"></script>
+    <script src="./main.js"></script>
   </head>
 
   <body class="text-center">
@@ -28,16 +29,15 @@
       <canvas id="canvas" width="600" height="480"></canvas>
       <button id="uploadbtn" class="btn btn-primary my-4">Upload Selfie</button>
 
+      <button onclick="listAll();" class="btn btn-primary my-4">List all files</button>
+
       <h2>Gallary</h2>
       <div class="row m-5">
         <div class="selfies">
 
         </div>
-
-
       </div>
     </div>
-
 
     <!-- webcam -->
     <script>
@@ -79,6 +79,11 @@
         image.src = canvas.toDataURL('image/png')
         // console.log(image.src);
 
+        // uploaded
+        const ref = storage.ref();
+        const task = ref.child(new Date() + '-' + 'base64').putString(image.src, 'data_url');
+
+        // uploaded
         var button = document.getElementById('uploadbtn')
         button.style.display = "block"
 
@@ -90,15 +95,9 @@
             .then(url => {
               // console.log(url);
               alert("Selfie uploaded successfully");
-
-              var selfie = document.createElement('img')
-              selfie.src = url
-              selfie.style.margin = "12px"
-              selfie.style.padding = "12px"
-              document.querySelector(".selfies").appendChild(selfie)
+              // listAll();
             })
-        } 
-
+        }
       })
 
       init();
